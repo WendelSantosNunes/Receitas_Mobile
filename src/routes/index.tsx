@@ -6,8 +6,8 @@ const Tab = createBottomTabNavigator();
 import { Ionicons } from '@expo/vector-icons'
 
 // pages
-import Home from '../pages/Home';
 import Favorites from '../pages/Favorites';
+import StackRoutes from './StackRoutes';
 
 export default function Routes(){
   return(
@@ -26,7 +26,7 @@ export default function Routes(){
     >
       <Tab.Screen 
         name="Home" 
-        component={Home}
+        component={StackRoutes} // tab screen e stack tem home como rota inicial, então ele pode contém dois. Isso pode levar a conflito.
         options={{
           tabBarIcon: ({color, size, focused}) => {
             if(focused) {
