@@ -1,5 +1,6 @@
 import { View,TextInput, Text, StyleSheet, SafeAreaView, TouchableOpacity, FlatList} from 'react-native'
 import { useState, useEffect } from 'react'
+import { useNavigation } from '@react-navigation/native'
 
 // icons 
 import { Ionicons } from '@expo/vector-icons'
@@ -8,6 +9,9 @@ import { Ionicons } from '@expo/vector-icons'
 import Logo from '../../components/Logo'
 import api from '../../services/api'
 import FoodList from '../../components/FoodList'
+
+// animação
+import { Text as MotiText } from 'moti'
 
 // interface
 interface Ingredient {
@@ -21,7 +25,7 @@ interface Instruction {
   text: string,
 }
 
-interface Food {
+export interface Food {
   id: string,
   name: string,
   total_ingredients: string,
@@ -36,6 +40,8 @@ export default function Home() {
   const [inputValue, setInputValue] = useState('')
   const [foods, setFoods] = useState<Food[]>([])
 
+  const navigation = useNavigation()
+
   useEffect(() => {
     async function fetchApi() {
       const response = await api.get("/foods")
@@ -47,36 +53,76 @@ export default function Home() {
   }, [])
 
   function handleSearch() {
-    console.log('Você clicou nesse botão')
+    if(!inputValue){
+      return 
+    }
+
+    let input = inputValue;
+    setInputValue('')
+    navigation.navigate("Search", {name: input})
   }
 
   return(
    <SafeAreaView style={styles.container}>
-     <Logo />
-     <Text style={styles.title}>Encontre a receita</Text>
-     <Text style={styles.title}>que combina com você</Text>
+    <Logo />
+    <MotiText 
+      style={styles.title}
+      from={{
+        opacity: 0,
+        translateY: 15,
+      }}
+      animate={{
+        opacity: 1,
+        translateY: 0,
+      }}
+      transition={{
+        delay: 100,
+        type: 'timing',
+        duration: 650
+      }}
+    >
+      Encontre a receita
+    </MotiText>
+    <MotiText 
+      style={styles.title}
+      from={{
+        opacity: 0,
+        translateY: 15,
+      }}
+      animate={{
+        opacity: 1,
+        translateY: 0,
+      }}
+      transition={{
+        delay: 200,
+        type: 'timing',
+        duration: 850
+      }}
+    >
+      que combina com você
+    </MotiText>
      
-     <View style={styles.form}>
-      {/* input do web*/}
-      <TextInput 
-        placeholder='Digite o nome comida'
-        style={styles.input}
-        value={inputValue}
-        onChangeText={(text) => setInputValue(text)}
-      />
-      {/* Botão clicável | button do web */}
-      {/* onPress = clicar no button vai acionar essa função */}
-      <TouchableOpacity onPress={handleSearch}>
-        <Ionicons name="search" color="#4CBE6C" size={28}/>
-      </TouchableOpacity>
-     </View>
+    <View style={styles.form}>
+    {/* input do web*/}
+    <TextInput 
+      placeholder='Digite o nome comida'
+      style={styles.input}
+      value={inputValue}
+      onChangeText={(text) => setInputValue(text)}
+    />
+    {/* Botão clicável | button do web */}
+    {/* onPress = clicar no button vai acionar essa função */}
+    <TouchableOpacity onPress={handleSearch}>
+      <Ionicons name="search" color="#4CBE6C" size={28}/>
+    </TouchableOpacity>
+    </View>
 
-     <FlatList 
-      data={foods} // A lista que será rederizada
-      keyExtractor={(item) => String(item.id)} // A chave para cada receita
-      renderItem={({item}) => <FoodList {...item} />}
-      // Tirar a barra de rolagem
-      showsVerticalScrollIndicator={false}
+    <FlatList 
+    data={foods} // A lista que será rederizada
+    keyExtractor={(item) => String(item.id)} // A chave para cada receita
+    renderItem={({item}) => <FoodList {...item} />}
+    // Tirar a barra de rolagem
+    showsVerticalScrollIndicator={false}
     />
 
    </SafeAreaView>
