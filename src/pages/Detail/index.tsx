@@ -1,11 +1,10 @@
+import { useLayoutEffect, useState } from 'react'
 import { 
   View, Text, StyleSheet, Pressable, 
   ScrollView, Image, Modal,Share 
 } from 'react-native'
-import { useRoute, useNavigation } from '@react-navigation/native'
+import { useRoute, useNavigation, RouteProp } from '@react-navigation/native'
 import { Entypo, AntDesign, Feather } from '@expo/vector-icons'
-// Essa função sempre será executado primeiro
-import { useLayoutEffect, useState } from 'react'
 
 // Componentes
 import Ingredients from '../../components/ingredients'
@@ -15,13 +14,26 @@ import { VideoView } from '../../components/Video'
 // utils
 import { postFavorites, removeFavorites, isFavorites } from '../../utils/storage'
 
+import { Food } from '../Home'
+
+type RouteParams = {
+  key: string;
+  name: string;
+  path?: string;
+  data: Food;
+};
+
+type ParamList = {
+  Detail: RouteParams;
+};
+
 export default function Detail() {
-  const route = useRoute()
+  const route = useRoute< RouteProp<ParamList, 'Detail'>>()
   const navigation = useNavigation()
   const [showVideo, setShowVideo] = useState(false)
   const [favorite, setFavorite] = useState(false)
 
-  async function handleFavoriteReceipe(receipe){
+  async function handleFavoriteReceipe(receipe: Food){
     if(favorite){
       await removeFavorites(receipe.id)
       setFavorite(false)

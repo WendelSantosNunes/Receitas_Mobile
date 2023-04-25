@@ -13,7 +13,7 @@ export default function StackRoutes() {
     <Stack.Navigator>
       {/* Isso é igual a route */}
       <Stack.Screen 
-        name="Home" 
+        name="HomeStack" 
         component={Home}
         options={{
           headerShown: false,

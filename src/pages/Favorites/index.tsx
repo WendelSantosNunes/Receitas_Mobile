@@ -7,8 +7,10 @@ import { getFavorites } from '../../utils/storage'
 // Componentes
 import FoodList from '../../components/FoodList'
 
+import { Food } from '../Home'
+
 export default function Favorites() {
-  const [receipes, setReceipes] = useState([])
+  const [receipes, setReceipes] = useState<Food[]>([])
   // Se ele estiver nessa tela, essa variável será true
   const isFocused = useIsFocused()
 

@@ -1,4 +1,4 @@
-import { View,TextInput, Text, StyleSheet, SafeAreaView, TouchableOpacity, FlatList} from 'react-native'
+import { View,TextInput, StyleSheet, SafeAreaView, TouchableOpacity, FlatList} from 'react-native'
 import { useState, useEffect } from 'react'
 import { useNavigation } from '@react-navigation/native'
 

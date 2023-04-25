@@ -8,7 +8,7 @@ import { Food } from "../pages/Home";
 export async function getFavorites(key: string) {
   const favorites = await AsyncStorage.getItem(key)
 
-  return JSON.parse(favorites) || []
+  return favorites ? JSON.parse(favorites) : []
 }
 
 // Salvar um novo favorito
@@ -19,7 +19,7 @@ export async function postFavorites(key : string, newItem: Food) {
   let myFavorites = await getFavorites(key)
   
   // verificar se já existe dentro do array
-  let hasItem = myFavorites.some(item => item.id === newItem.id)
+  let hasItem = myFavorites.some((item: Food) => item.id === newItem.id)
 
   if(hasItem){
     console.log('Esse item já existe no array!')
@@ -39,7 +39,7 @@ export async function postFavorites(key : string, newItem: Food) {
 export async function removeFavorites(id: string) {
   let receipes = await getFavorites('@appreceitas')
 
-  let myFavorites = receipes.filter(item => {
+  let myFavorites = receipes.filter((item: Food) => {
     return (item.id !== id)
   })
 
@@ -54,7 +54,7 @@ export async function removeFavorites(id: string) {
 export async function isFavorites(receipe: Food) {
   let myReceipes = await getFavorites('@appreceitas')
 
-  const favorite = myReceipes.find(item => item.id === receipe.id)
+  const favorite = myReceipes.find((item: Food) => item.id === receipe.id)
 
   if(favorite){
     return true;

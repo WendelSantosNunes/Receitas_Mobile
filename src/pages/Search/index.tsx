@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { View, Text, StyleSheet, SafeAreaView, FlatList} from 'react-native'
-import { useRoute } from '@react-navigation/native'
+import { useRoute, RouteProp } from '@react-navigation/native'
 
 // Api
 import api from '../../services/api'
@@ -8,9 +8,22 @@ import api from '../../services/api'
 // Componente
 import FoodList from '../../components/FoodList'
 
+import { Food } from '../Home'
+
+type RouteParams = {
+  key: string;
+  name: string;
+  path?: string;
+  data: Food;
+};
+
+type ParamList = {
+  Detail: RouteParams;
+};
+
 export default function Search() {
-  const [receipes, setReceipes] = useState([])
-  const route = useRoute()
+  const [receipes, setReceipes] = useState<Food[]>([])
+  const route = useRoute< RouteProp<ParamList, 'Detail'>>()
 
   useEffect(() => {
     async function fetchReceipes(){
